@@ -1,6 +1,7 @@
 package com.graphics;
 
 import java.util.Hashtable;
+import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -8,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
+import com.badlogic.gdx.utils.Array;
 
 // Singleton responsible for loading textures and providing textures
 
@@ -24,7 +26,7 @@ public class TextureManager
 	
 	private Texture mBackgroundTexture;
 	
-		private Hashtable<String, AtlasRegion> mLoadedRegions;
+	private Hashtable<String, AtlasRegion> mLoadedRegions;
 	
 	// Constant variables
 	public static final int FRUIT = 0;
@@ -143,6 +145,17 @@ public class TextureManager
 		}
 		
 		return sprite;
+	}
+	
+	public AtlasRegion getRandomFruit()
+	{
+		Array<AtlasRegion> atlasRegions = mFruitTextures.getRegions();
+		
+		// Get a random number within the altas region
+		Random ran = new Random();
+		int nr = 0 + ran.nextInt((atlasRegions.size - 1) - 0 + 1);
+		
+		return atlasRegions.get(nr);
 	}
 	
 	/**

@@ -3,6 +3,7 @@ package com.gamelogic;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.graphics.TextureManager;
 
@@ -24,7 +25,8 @@ public class Egg extends FallingObject
 		m_Velocity = FALLSPEED;
 		m_Pos = new Vector2(x, y);
 		m_Dir = new Vector2(0.0f, -1.0f);
-		m_Sprite = TextureManager.getInstance().createSprite("apple", -1, TextureManager.FRUIT);
+		AtlasRegion atlasRegion = TextureManager.getInstance().getRandomFruit();
+		m_Sprite = new Sprite(atlasRegion);
 		m_Sprite.setSize(32, 32);
 	}
 	

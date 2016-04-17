@@ -28,7 +28,6 @@ public class Player extends Object
 		m_Name = "";
 		//m_Sprite = TextureManager.getInstance().createSprite("idle", 0, TextureManager.PLAYER);
 		AtlasRegion atlasRegion = TextureManager.getInstance().getAtlasRegion("idle", 0, TextureManager.PLAYER);
-		TextureManager.getInstance().getAtlasRegion("attack", 2, TextureManager.PLAYER);
 		m_Sprite = new Sprite(atlasRegion);
 		// Set player sprite size
 		float scale = (float) 1.5;
