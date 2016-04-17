@@ -5,6 +5,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+// Will be used for highscore database connection.
+
 public class DatabaseConnector
 {
 	private Connection m_Connection;
@@ -22,6 +24,7 @@ public class DatabaseConnector
 		
 		try 
 		{
+			// TODO: Remove hard coding
 			m_Connection = DriverManager.getConnection(
 					"jdbc:postgresql://127.0.0.1:5432/prjo", "postgres",
 					"#Aptur9191!");
