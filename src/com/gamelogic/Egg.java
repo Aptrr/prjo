@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.graphics.TextureManager;
 
 public class Egg extends FallingObject
 {
@@ -23,9 +24,7 @@ public class Egg extends FallingObject
 		m_Velocity = FALLSPEED;
 		m_Pos = new Vector2(x, y);
 		m_Dir = new Vector2(0.0f, -1.0f);
-		TextureRegion textureRegion = new TextureRegion(new Texture("Vegies.png"), 32, 32);
-		TextureRegion[][] tmp = textureRegion.split(32, 32);
-		m_Sprite = new Sprite(tmp[0][0]);
+		m_Sprite = TextureManager.getInstance().createSprite("apple", -1, TextureManager.FRUIT);
 		m_Sprite.setSize(32, 32);
 	}
 	

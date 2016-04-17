@@ -5,7 +5,9 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.graphics.TextureManager;
 
 public class Player extends Object
 {
@@ -24,7 +26,10 @@ public class Player extends Object
 	{
 		m_Score = 0;
 		m_Name = "";
-		m_Sprite = new Sprite(new Texture("idle_0.png"));
+		//m_Sprite = TextureManager.getInstance().createSprite("idle", 0, TextureManager.PLAYER);
+		AtlasRegion atlasRegion = TextureManager.getInstance().getAtlasRegion("idle", 0, TextureManager.PLAYER);
+		TextureManager.getInstance().getAtlasRegion("attack", 2, TextureManager.PLAYER);
+		m_Sprite = new Sprite(atlasRegion);
 		// Set player sprite size
 		float scale = (float) 1.5;
 		float width = m_Sprite.getWidth() / scale;

@@ -14,6 +14,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.gamelogic.InputManager;
+import com.graphics.TextureManager;
 import com.highscore.DatabaseConnector;
 
 public class PRJO extends ApplicationAdapter {
@@ -55,7 +56,7 @@ public class PRJO extends ApplicationAdapter {
 		}
 		catch (Exception e)
 		{
-			JOptionPane.showMessageDialog(null, e.getMessage(), "Fel", JOptionPane.INFORMATION_MESSAGE);
+			e.printStackTrace();
 		}
 	}
 
