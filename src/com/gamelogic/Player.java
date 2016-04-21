@@ -55,14 +55,18 @@ public class Player extends Object
 		if (m_MoveLeft)
 		{
 			this.m_Pos.x = 50;
+			this.m_Sprite.setRegion(TextureManager.getInstance().getAtlasRegion("attack", 1, TextureManager.PLAYER));
+			this.m_Sprite.flip(true, false);
 		}
 		else if (m_MoveRight)
 		{
 			this.m_Pos.x = 250;
+			this.m_Sprite.setRegion(TextureManager.getInstance().getAtlasRegion("attack", 1, TextureManager.PLAYER));
 		}
 		else
 		{
 			this.m_Pos.x = 150;
+			this.m_Sprite.setRegion(TextureManager.getInstance().getAtlasRegion("idle", 0, TextureManager.PLAYER));
 		}
 		super.update(dt);
 	}

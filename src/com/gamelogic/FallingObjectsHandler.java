@@ -79,7 +79,7 @@ public class FallingObjectsHandler
 		m_TimeSinceLastSpawn += dt;
 		if (m_TimeSinceLastSpawn >= m_SpawnInterval)
 		{
-			m_FallingObjects.add(new Egg(SPAWNPOSITIONS[getRandomNumber(0, SPAWNPOSITIONS.length)], Gdx.graphics.getHeight()));
+			m_FallingObjects.add(new Fruit(SPAWNPOSITIONS[getRandomNumber(0, SPAWNPOSITIONS.length)], Gdx.graphics.getHeight()));
 			m_TimeSinceLastSpawn = 0.0f;
 			if (m_SpawnInterval > MINSPAWNINTERVAL)
 			{
