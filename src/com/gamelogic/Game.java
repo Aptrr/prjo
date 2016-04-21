@@ -1,10 +1,5 @@
 package com.gamelogic;
 
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.math.Intersector;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
-
 public class Game
 {
 	// Private variables

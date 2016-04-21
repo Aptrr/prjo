@@ -1,11 +1,9 @@
 package com.gamelogic;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.utils.Pool;
 
 public class FallingObjectsHandler
 {

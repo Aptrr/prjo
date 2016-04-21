@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.mygdx.prjo.PRJO;
-import com.sun.org.apache.xpath.internal.axes.SelfIteratorNoPredicate;
 
 public class InputManager implements InputProcessor
 {
