@@ -13,6 +13,7 @@ public class Fruit extends FallingObject
 	
 	public Fruit()
 	{
+		super();
 		m_Velocity = FALLSPEED;
 		m_Pos = new Vector2(50.0f, 250.0f);
 		m_Dir = new Vector2(0.0f, -1.0f);

@@ -6,6 +6,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
 import com.graphics.TextureManager;
 
@@ -34,7 +36,9 @@ public class Player extends Object
 		float width = m_Sprite.getWidth() / scale;
 		float height = m_Sprite.getHeight() / scale;
 		m_Sprite.setSize(width, height);
-		m_Pos = new Vector2(450, 40);
+		
+		// Set the sprite position
+		m_Pos = new Vector2((Gdx.graphics.getWidth() / 2) - (m_Sprite.getWidth()/2), 40);
 		m_Font = new BitmapFont();
 	}
 	
@@ -54,18 +58,15 @@ public class Player extends Object
 	{
 		if (m_MoveLeft)
 		{
-			this.m_Pos.x = 50;
 			this.m_Sprite.setRegion(TextureManager.getInstance().getAtlasRegion("attack", 1, TextureManager.PLAYER));
 			this.m_Sprite.flip(true, false);
 		}
 		else if (m_MoveRight)
 		{
-			this.m_Pos.x = 250;
 			this.m_Sprite.setRegion(TextureManager.getInstance().getAtlasRegion("attack", 1, TextureManager.PLAYER));
 		}
 		else
 		{
-			this.m_Pos.x = 150;
 			this.m_Sprite.setRegion(TextureManager.getInstance().getAtlasRegion("idle", 0, TextureManager.PLAYER));
 		}
 		super.update(dt);

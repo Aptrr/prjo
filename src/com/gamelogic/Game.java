@@ -11,6 +11,7 @@ public class Game
 	// ----------------------------------
 	private Player m_Player;
 	private FallingObjectsHandler m_FallingObjectsHandler;
+	private CollisionHandler m_CollisionHandler;
 	private long m_StartTime;
 	private boolean m_Running;
 	// ----------------------------------
@@ -21,6 +22,7 @@ public class Game
 	{
 		m_Player = new Player();
 		m_FallingObjectsHandler = new FallingObjectsHandler();
+		m_CollisionHandler = new CollisionHandler();
 		m_StartTime = 0;
 		m_Running = false;
 	}
@@ -59,26 +61,7 @@ public class Game
 	
 	private void checkCollisions()
 	{
-		int nrOfFallingObjects = m_FallingObjectsHandler.getNrOfFallingObjects();
-		if (nrOfFallingObjects > 0)
-		{
-			Rectangle playerRectangle = m_Player.getSprite().getBoundingRectangle();
-			for (int i = 0; i < nrOfFallingObjects; i++)
-			{
-				FallingObject fallingObject = m_FallingObjectsHandler.getFallingObject(i);
-				if (fallingObject == null)
-				{
-					continue;
-				}
-				Rectangle fallingObjectRectangle = fallingObject.getSprite().getBoundingRectangle();
-				
-				if (Intersector.intersectRectangles(playerRectangle, fallingObjectRectangle, fallingObjectRectangle))
-				{
-					m_Player.setScore(m_Player.getScore() + 1);
-					m_FallingObjectsHandler.removeFallingObject(i);
-				}
-			}
-		}
+		m_CollisionHandler.colliding(m_Player, m_FallingObjectsHandler);
 	}
 	
 	private long getElapsedTime()

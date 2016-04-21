@@ -6,11 +6,13 @@ import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Pool;
-import com.sun.org.apache.xml.internal.resolver.helpers.PublicId;
 
 public class FallingObjectsHandler
 {
-	private static final int[] SPAWNPOSITIONS = {50, 175, 300};
+	private static final int[] SPAWNPOSITIONS = {
+		(Gdx.graphics.getWidth() / 2)-90,
+		(Gdx.graphics.getWidth() / 2)+40
+		};
 	private static final float MINSPAWNINTERVAL = 0.25f;
 	private ArrayList<FallingObject> m_FallingObjects;
 	//private ArrayList<FallingObject> m_FallingObjects;
@@ -29,7 +31,6 @@ public class FallingObjectsHandler
 		for (int i = 0; i < m_FallingObjects.size(); i++)
 		{
 			m_FallingObjects.get(i).update(dt);
-			
 			if (m_FallingObjects.get(i).getPos().y < 0)
 			{
 				m_Dead = true;
@@ -79,7 +80,15 @@ public class FallingObjectsHandler
 		m_TimeSinceLastSpawn += dt;
 		if (m_TimeSinceLastSpawn >= m_SpawnInterval)
 		{
-			m_FallingObjects.add(new Fruit(SPAWNPOSITIONS[getRandomNumber(0, SPAWNPOSITIONS.length)], Gdx.graphics.getHeight()));
+			int spawnPosition = getRandomNumber(0, SPAWNPOSITIONS.length);
+			// Create fruit
+			Fruit fruit = new Fruit(SPAWNPOSITIONS[spawnPosition], Gdx.graphics.getHeight());
+			// Set position array for collision handling
+			fruit.setPoisition(spawnPosition);
+			// Add the fruit to the falling objects
+			m_FallingObjects.add(fruit);
+			
+			// Update spawn timer
 			m_TimeSinceLastSpawn = 0.0f;
 			if (m_SpawnInterval > MINSPAWNINTERVAL)
 			{
