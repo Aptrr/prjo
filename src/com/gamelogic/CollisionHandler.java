@@ -16,11 +16,18 @@ public class CollisionHandler
 		for (int i = 0; i < foh.getNrOfFallingObjects(); i++)
 		{
 			// Make sure the object is at or below the player height
-			if (foh.getFallingObject(i).getPos().y <= player.getSprite().getY() + player.getSprite().getHeight())
+			if (foh.getFallingObject(i).getPos().y <= player.getSprite().getY() + player.getSprite().getHeight()
+					&& foh.getFallingObject(i).getPos().y > 30)
 			{
 				switch (foh.getFallingObject(i).getPosition()) {
 					case 0:
 						if (player.getMoveLeft())
+						{
+							foh.removeFallingObject(i);
+						}
+						break;
+					case 1:
+						if (!player.getMoveLeft() && !player.getMoveRight())
 						{
 							foh.removeFallingObject(i);
 						}

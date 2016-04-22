@@ -9,9 +9,10 @@ public class FallingObjectsHandler
 {
 	private static final int[] SPAWNPOSITIONS = {
 		(Gdx.graphics.getWidth() / 2)-90,
+		(Gdx.graphics.getWidth() / 2) - 34,
 		(Gdx.graphics.getWidth() / 2)+40
 		};
-	private static final float MINSPAWNINTERVAL = 0.25f;
+	private static final float MINSPAWNINTERVAL = 0.35f;
 	private ArrayList<FallingObject> m_FallingObjects;
 	//private ArrayList<FallingObject> m_FallingObjects;
 	private float m_SpawnInterval = 1.5f;

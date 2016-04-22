@@ -7,7 +7,7 @@ import com.graphics.TextureManager;
 
 public class Fruit extends FallingObject
 {
-	private static final float FALLSPEED = 750.0f;
+	private static final float FALLSPEED = 500.0f;
 	
 	public Fruit()
 	{
@@ -25,6 +25,7 @@ public class Fruit extends FallingObject
 		AtlasRegion atlasRegion = TextureManager.getInstance().getRandomFruit();
 		m_Sprite = new Sprite(atlasRegion);
 		m_Sprite.setSize(32, 32);
+		m_Sprite.scale(1.05f);
 	}
 	
 	public void update(float dt)
