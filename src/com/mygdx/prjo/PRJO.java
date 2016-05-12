@@ -4,12 +4,16 @@ import javax.swing.JOptionPane;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.viewport.FillViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.gamelogic.InputManager;
 import com.highscore.DatabaseConnector;
 
@@ -25,6 +29,8 @@ public class PRJO extends ApplicationAdapter {
 	private InputManager m_InputManager;
 	private DatabaseConnector m_DbConnector;
 	private Sprite m_Background;
+	private Camera m_Camera;
+	private Viewport m_Viewport;
 	// ------------------------------------
 	
 	// Public member variable
@@ -38,17 +44,22 @@ public class PRJO extends ApplicationAdapter {
 		try
 		{
 			m_SpriteBatch = new SpriteBatch();
-			//img = new Texture("badlogic.jpg");
 			m_ScoreFont = new BitmapFont();
 			m_InstructionFont = new BitmapFont();
 			m_Game = new com.gamelogic.Game();
 			// Set Gdx to use custom input manager
 			m_InputManager = new InputManager();
 			Gdx.input.setInputProcessor(m_InputManager);
-			m_DbConnector = new DatabaseConnector();
+			
+			// Create camera and viewport
+			m_Camera = new OrthographicCamera();
+			m_Viewport = new FillViewport(500, 500, m_Camera);
+			m_Viewport.apply();
+			m_Camera.position.set(m_Camera.viewportWidth/2, m_Camera.viewportHeight/2, 0);
 			
 			// Initialize background sprite
-			m_Background = createScaledSprite(new Texture("background1.png"));   
+			m_Background = createScaledSprite(new Texture("background1.png"));
+			//m_Background = new Sprite(new Texture("background1.png"));
 		}
 		catch (Exception e)
 		{
@@ -61,9 +72,12 @@ public class PRJO extends ApplicationAdapter {
 	{
 		try
 		{
+			m_Camera.update();
+			
 			Gdx.gl.glClearColor(1, 0, 0, 1);
 			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 			
+			m_SpriteBatch.setProjectionMatrix(m_Camera.combined);
 			m_SpriteBatch.begin();
 			m_Background.draw(m_SpriteBatch);
 			m_SpriteBatch.end();
@@ -86,6 +100,13 @@ public class PRJO extends ApplicationAdapter {
 	public com.gamelogic.Game getGame()
 	{
 		return this.m_Game;
+	}
+	
+	@Override
+	public void resize(int width, int height)
+	{
+		m_Viewport.update(width, height);
+		m_Camera.position.set(m_Camera.viewportWidth/2, m_Camera.viewportHeight/2, 0);
 	}
 	
 	// Start game
@@ -121,13 +142,14 @@ public class PRJO extends ApplicationAdapter {
 		m_SpriteBatch.end();
 	}
 	
-	private static Sprite createScaledSprite(Texture texture) 
+	private Sprite createScaledSprite(Texture texture) 
 	{
 		Sprite sprite = new Sprite(texture);
 		sprite.getTexture().setFilter(TextureFilter.Linear,
 				TextureFilter.Linear);
-		sprite.setSize(Gdx.graphics.getWidth(),
-				Gdx.graphics.getHeight());
+
+		sprite.setSize(m_Viewport.getWorldWidth(),
+				m_Viewport.getWorldHeight());
 		return sprite;
     }
 }

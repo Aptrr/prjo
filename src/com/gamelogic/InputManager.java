@@ -65,15 +65,34 @@ public class InputManager implements InputProcessor
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button)
 	{
-		// TODO Auto-generated method stub
-		return false;
+		System.out.println(screenX + " width: " + Gdx.graphics.getWidth()/2);
+		if (screenX < Gdx.graphics.getWidth()/2)
+		{
+			m_App.getGame().getPlayer().setMoveLeft(true);
+		}
+		else
+		{
+			System.out.println("right");
+			m_App.getGame().getPlayer().setMoveRight(true);
+		}
+		return true;
 	}
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button)
 	{
-		// TODO Auto-generated method stub
-		return false;
+		// Start game if the game is not running
+		if (!m_App.getGame().isRunning())
+		{
+			m_App.startGame();
+		}
+		// The player is not moving if no touch is happening
+		else
+		{
+			m_App.getGame().getPlayer().setMoveLeft(false);
+			m_App.getGame().getPlayer().setMoveRight(false);
+		}
+		return true;
 	}
 
 	@Override
