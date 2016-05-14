@@ -1,8 +1,10 @@
 package com.gamelogic;
 
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.prjo.PRJO;
 
 public class Object
 {
@@ -31,8 +33,9 @@ public class Object
 		
 	}
 	
-	public void render()
+	public void render(Camera camera)
 	{
+		m_SpriteBatch.setProjectionMatrix(camera.combined);
 		m_Sprite.setPosition(m_Pos.x, m_Pos.y);
 	}
 

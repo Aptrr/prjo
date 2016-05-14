@@ -12,9 +12,15 @@ import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.FillViewport;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.gamelogic.InputManager;
+import com.graphics.TextureManager;
 import com.highscore.DatabaseConnector;
 
 public class PRJO extends ApplicationAdapter {
@@ -27,15 +33,16 @@ public class PRJO extends ApplicationAdapter {
 	private BitmapFont m_InstructionFont;
 	private com.gamelogic.Game m_Game;
 	private InputManager m_InputManager;
-	private DatabaseConnector m_DbConnector;
 	private Sprite m_Background;
 	private Camera m_Camera;
 	private Viewport m_Viewport;
 	// ------------------------------------
 	
+	
 	// Public member variable
 	// ------------------------------------
-	//public static float SCALE_RATIO = 3289 / Gdx.graphics.getWidth();
+	public static final float WORLD_WIDTH = 50;
+    public static final float WORLD_HEIGHT = 100;
 	// ------------------------------------
 	
 	@Override
@@ -46,20 +53,26 @@ public class PRJO extends ApplicationAdapter {
 			m_SpriteBatch = new SpriteBatch();
 			m_ScoreFont = new BitmapFont();
 			m_InstructionFont = new BitmapFont();
-			m_Game = new com.gamelogic.Game();
+			m_Game = new com.gamelogic.Game(m_Camera);
+			
 			// Set Gdx to use custom input manager
 			m_InputManager = new InputManager();
 			Gdx.input.setInputProcessor(m_InputManager);
 			
 			// Create camera and viewport
+			float aspectRatio = (float)Gdx.graphics.getWidth() / (float)Gdx.graphics.getHeight();
 			m_Camera = new OrthographicCamera();
-			m_Viewport = new FillViewport(500, 500, m_Camera);
+			
+			// Init viewport
+			m_Viewport = new StretchViewport(WORLD_WIDTH * aspectRatio, WORLD_HEIGHT, m_Camera);
 			m_Viewport.apply();
-			m_Camera.position.set(m_Camera.viewportWidth/2, m_Camera.viewportHeight/2, 0);
+			
+			// Set camera position to the center of the world
+			m_Camera.position.set(WORLD_WIDTH/2, WORLD_HEIGHT/2, 0);
 			
 			// Initialize background sprite
-			m_Background = createScaledSprite(new Texture("background1.png"));
-			//m_Background = new Sprite(new Texture("background1.png"));
+			m_Background = new Sprite(new Texture("background1.png"));
+			m_Background.setSize(WORLD_WIDTH, WORLD_HEIGHT);
 		}
 		catch (Exception e)
 		{
@@ -106,7 +119,7 @@ public class PRJO extends ApplicationAdapter {
 	public void resize(int width, int height)
 	{
 		m_Viewport.update(width, height);
-		m_Camera.position.set(m_Camera.viewportWidth/2, m_Camera.viewportHeight/2, 0);
+		m_Camera.position.set(WORLD_WIDTH/2, WORLD_HEIGHT/2, 0);
 	}
 	
 	// Start game
@@ -116,7 +129,7 @@ public class PRJO extends ApplicationAdapter {
 		{
 			m_Game = null;
 		}
-		m_Game = new com.gamelogic.Game();
+		m_Game = new com.gamelogic.Game(m_Camera);
 		m_Game.startGame();
 	}
 	

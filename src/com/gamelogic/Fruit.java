@@ -1,5 +1,6 @@
 package com.gamelogic;
 
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -24,8 +25,8 @@ public class Fruit extends FallingObject
 		m_Dir = new Vector2(0.0f, -1.0f);
 		AtlasRegion atlasRegion = TextureManager.getInstance().getRandomFruit();
 		m_Sprite = new Sprite(atlasRegion);
-		m_Sprite.setSize(32, 32);
-		m_Sprite.scale(1.05f);
+		m_Sprite.setSize(10, 10);
+		//m_Sprite.scale(1.05f);
 	}
 	
 	public void update(float dt)
@@ -35,9 +36,9 @@ public class Fruit extends FallingObject
 		m_Pos.y -= m_Velocity * dt; 
 	}
 	
-	public void render()
+	public void render(Camera camera)
 	{
-		super.render();
+		super.render(camera);
 		m_SpriteBatch.begin();
 		m_Sprite.draw(m_SpriteBatch);
 		m_SpriteBatch.end();

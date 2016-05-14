@@ -4,13 +4,15 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Camera;
+import com.mygdx.prjo.PRJO;
 
 public class FallingObjectsHandler
 {
-	private static final int[] SPAWNPOSITIONS = {
-		(Gdx.graphics.getWidth() / 2)-90,
-		(Gdx.graphics.getWidth() / 2) - 34,
-		(Gdx.graphics.getWidth() / 2)+40
+	private static final float[] SPAWNPOSITIONS = {
+		PRJO.WORLD_WIDTH / 2,
+		PRJO.WORLD_WIDTH / 2,
+		PRJO.WORLD_WIDTH / 2,
 		};
 	private static final float MINSPAWNINTERVAL = 0.35f;
 	private ArrayList<FallingObject> m_FallingObjects;
@@ -38,11 +40,11 @@ public class FallingObjectsHandler
 		}
 	}
 	
-	public void render()
+	public void render(Camera camera)
 	{
 		for (int i = 0; i < m_FallingObjects.size(); i++)
 		{
-			m_FallingObjects.get(i).render();
+			m_FallingObjects.get(i).render(camera);
 		}
 	}
 	

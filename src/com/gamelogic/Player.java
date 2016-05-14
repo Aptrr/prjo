@@ -1,12 +1,14 @@
 package com.gamelogic;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.graphics.TextureManager;
+import com.mygdx.prjo.PRJO;
 
 public class Player extends Object
 {
@@ -29,22 +31,16 @@ public class Player extends Object
 		AtlasRegion atlasRegion = TextureManager.getInstance().getAtlasRegion("idle", 0, TextureManager.PLAYER);
 		m_Sprite = new Sprite(atlasRegion);
 		// Set player sprite size
-		float scale = (float) 1.5;
-		float width = m_Sprite.getWidth() / scale;
-		float height = m_Sprite.getHeight() / scale;
-		m_Sprite.setSize(width, height);
+		//float scale = (float) 1.5;
+		//float width = m_Sprite.getWidth() / scale;
+		//float height = m_Sprite.getHeight() / scale;
+		float spriteX = PRJO.WORLD_WIDTH * 0.2f;
+		float spriteY = PRJO.WORLD_HEIGHT * 0.15f;
+		
+		m_Sprite.setSize(spriteX, spriteY);
 		
 		// Set the sprite position
-		m_Pos = new Vector2((Gdx.graphics.getWidth() / 2) - (m_Sprite.getWidth()/2), 40);
-		m_Font = new BitmapFont();
-	}
-	
-	public Player(String name)
-	{
-		m_Score = 0;
-		m_Name = name;
-		m_Sprite = new Sprite(new Texture("idle_0.png"));
-		m_Pos = new Vector2(250, 500);
+		m_Pos = new Vector2(PRJO.WORLD_WIDTH/2 - (spriteX/2), PRJO.WORLD_HEIGHT * 0.075f);
 		m_Font = new BitmapFont();
 	}
 	// ----------------------------------
@@ -53,6 +49,7 @@ public class Player extends Object
 	// ----------------------------------
 	public void update(float dt)
 	{
+		super.update(dt);
 		if (m_MoveLeft)
 		{
 			this.m_Sprite.setRegion(TextureManager.getInstance().getAtlasRegion("attack", 1, TextureManager.PLAYER));
@@ -66,14 +63,13 @@ public class Player extends Object
 		{
 			this.m_Sprite.setRegion(TextureManager.getInstance().getAtlasRegion("idle", 0, TextureManager.PLAYER));
 		}
-		super.update(dt);
 	}
 	
-	public void render()
+	public void render(Camera camera)
 	{
-		super.render();
+		super.render(camera);
 		m_SpriteBatch.begin();
-		m_Font.draw(m_SpriteBatch, "Score: " + m_Score, Gdx.graphics.getWidth() - 100, Gdx.graphics.getHeight() - 5);
+		//m_Font.draw(m_SpriteBatch, "Score: " + m_Score, Gdx.graphics.getWidth() - 100, Gdx.graphics.getHeight() - 5);
 		m_Sprite.draw(m_SpriteBatch);
 		m_SpriteBatch.end();
 	}

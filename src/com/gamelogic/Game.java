@@ -1,5 +1,7 @@
 package com.gamelogic;
 
+import com.badlogic.gdx.graphics.Camera;
+
 public class Game
 {
 	// Private variables
@@ -9,22 +11,19 @@ public class Game
 	private CollisionHandler m_CollisionHandler;
 	private long m_StartTime;
 	private boolean m_Running;
+	private Camera m_Camera;
 	// ----------------------------------
 	
 	// Constructors
 	// ----------------------------------
-	public Game()
+	public Game(Camera camera)
 	{
 		m_Player = new Player();
 		m_FallingObjectsHandler = new FallingObjectsHandler();
 		m_CollisionHandler = new CollisionHandler();
 		m_StartTime = 0;
 		m_Running = false;
-	}
-	
-	public Game(String playerName)
-	{
-		m_Player = new Player(playerName);
+		m_Camera = camera;
 	}
 	// ----------------------------------
 	
@@ -49,8 +48,8 @@ public class Game
 	
 	public void render()
 	{
-		m_Player.render();
-		m_FallingObjectsHandler.render();
+		m_Player.render(m_Camera);
+		m_FallingObjectsHandler.render(m_Camera);
 	}
 	
 	
