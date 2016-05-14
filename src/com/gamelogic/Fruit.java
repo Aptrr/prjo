@@ -5,10 +5,11 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.graphics.TextureManager;
+import com.mygdx.prjo.PRJO;
 
 public class Fruit extends FallingObject
 {
-	private static final float FALLSPEED = 500.0f;
+	private static final float FALLSPEED = 85.0f;
 	
 	public Fruit()
 	{
@@ -21,12 +22,11 @@ public class Fruit extends FallingObject
 	public Fruit(float x, float y)
 	{
 		m_Velocity = FALLSPEED;
-		m_Pos = new Vector2(x, y);
 		m_Dir = new Vector2(0.0f, -1.0f);
 		AtlasRegion atlasRegion = TextureManager.getInstance().getRandomFruit();
 		m_Sprite = new Sprite(atlasRegion);
-		m_Sprite.setSize(10, 10);
-		//m_Sprite.scale(1.05f);
+		m_Sprite.setSize(PRJO.WORLD_WIDTH * 0.1f, PRJO.WORLD_HEIGHT * 0.1f);
+		m_Pos = new Vector2(x - (m_Sprite.getWidth()/2), y - (m_Sprite.getHeight()/2));
 	}
 	
 	public void update(float dt)
@@ -42,5 +42,11 @@ public class Fruit extends FallingObject
 		m_SpriteBatch.begin();
 		m_Sprite.draw(m_SpriteBatch);
 		m_SpriteBatch.end();
+	}
+	
+	@Override
+	public void Dispose()
+	{
+		super.Dispose();
 	}
 }

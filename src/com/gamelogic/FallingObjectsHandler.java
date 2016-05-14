@@ -10,14 +10,14 @@ import com.mygdx.prjo.PRJO;
 public class FallingObjectsHandler
 {
 	private static final float[] SPAWNPOSITIONS = {
+		(PRJO.WORLD_WIDTH / 2) * 0.7f,
 		PRJO.WORLD_WIDTH / 2,
-		PRJO.WORLD_WIDTH / 2,
-		PRJO.WORLD_WIDTH / 2,
+		(PRJO.WORLD_WIDTH / 2) * 1.3f,
 		};
-	private static final float MINSPAWNINTERVAL = 0.35f;
+	
+	private static final float MINSPAWNINTERVAL = 0.3f;
 	private ArrayList<FallingObject> m_FallingObjects;
-	//private ArrayList<FallingObject> m_FallingObjects;
-	private float m_SpawnInterval = 1.5f;
+	private float m_SpawnInterval = 1.0f;
 	private float m_TimeSinceLastSpawn = 0.0f;
 	private boolean m_Dead = false;
 	
@@ -83,7 +83,7 @@ public class FallingObjectsHandler
 		{
 			int spawnPosition = getRandomNumber(0, SPAWNPOSITIONS.length);
 			// Create fruit
-			Fruit fruit = new Fruit(SPAWNPOSITIONS[spawnPosition], Gdx.graphics.getHeight());
+			Fruit fruit = new Fruit(SPAWNPOSITIONS[spawnPosition], PRJO.WORLD_HEIGHT);
 			// Set position array for collision handling
 			fruit.setPoisition(spawnPosition);
 			// Add the fruit to the falling objects

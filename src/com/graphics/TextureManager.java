@@ -1,5 +1,6 @@
 package com.graphics;
 
+import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Random;
 
@@ -19,14 +20,15 @@ public class TextureManager
 	private static TextureManager instance = null;
 	
 	// Fruit variables
-	private TextureAtlas mFruitTextures;
+	private TextureAtlas m_FruitTextures;
+	private Array<AtlasRegion> m_FruitAtlasRegions;
 	
 	// Player variables
-	private TextureAtlas mPlayerTextures;
+	private TextureAtlas m_PlayerTextures;
 	
-	private Texture mBackgroundTexture;
+	private Texture m_BackgroundTexture;
 	
-	private Hashtable<String, AtlasRegion> mLoadedRegions;
+	private Hashtable<String, AtlasRegion> m_LoadedRegions;
 	
 	// Constant variables
 	public static final int FRUIT = 0;
@@ -55,12 +57,13 @@ public class TextureManager
 		boolean initialized = true;
 		
 		// Load fruit texture
-		mFruitTextures = new TextureAtlas(Gdx.files.internal("vegies_output/vegies.atlas"));
+		m_FruitTextures = new TextureAtlas(Gdx.files.internal("vegies_output/vegies.atlas"));
+		m_FruitAtlasRegions = m_FruitTextures.getRegions();
 		
 		// Load player texture
-		mPlayerTextures = new TextureAtlas(Gdx.files.internal("character_output/viking.atlas"));
+		m_PlayerTextures = new TextureAtlas(Gdx.files.internal("character_output/viking.atlas"));
 		
-		mLoadedRegions = new Hashtable<String, TextureAtlas.AtlasRegion>();
+		m_LoadedRegions = new Hashtable<String, TextureAtlas.AtlasRegion>();
 		
 		return initialized;
 	}
@@ -81,11 +84,11 @@ public class TextureManager
 			// Use the specified texture atlas
 			if (type == PLAYER)
 			{
-				textureAtlas = mPlayerTextures;
+				textureAtlas = m_PlayerTextures;
 			}
 			else if (type == FRUIT)
 			{
-				textureAtlas = mFruitTextures;
+				textureAtlas = m_FruitTextures;
 			}
 			else
 			{
@@ -122,25 +125,25 @@ public class TextureManager
 			case FRUIT:
 				if (index < 0)
 				{
-					sprite = mFruitTextures.createSprite(atlasName, index);
+					sprite = m_FruitTextures.createSprite(atlasName, index);
 				}
 				else
 				{
-					sprite = mFruitTextures.createSprite(atlasName);
+					sprite = m_FruitTextures.createSprite(atlasName);
 				}
 				break;
 			case PLAYER:
 				if (index < 0)
 				{
-					sprite = mPlayerTextures.createSprite(atlasName, index);
+					sprite = m_PlayerTextures.createSprite(atlasName, index);
 				}
 				else
 				{
-					sprite = mPlayerTextures.createSprite(atlasName);
+					sprite = m_PlayerTextures.createSprite(atlasName);
 				}
 				break;
 			default:
-				System.out.println("Invalid type specified in TextureManager.getSprite");
+				System.out.println("Invalid type specified in TextureManager.createSprite");
 				break;
 		}
 		
@@ -148,14 +151,27 @@ public class TextureManager
 	}
 	
 	public AtlasRegion getRandomFruit()
-	{
-		Array<AtlasRegion> atlasRegions = mFruitTextures.getRegions();
-		
+	{		
 		// Get a random number within the altas region
 		Random ran = new Random();
-		int nr = 0 + ran.nextInt((atlasRegions.size - 1) - 0 + 1);
+		int nr = 0 + ran.nextInt((m_FruitAtlasRegions.size - 1) - 0 + 1);
 		
-		return atlasRegions.get(nr);
+		return m_FruitAtlasRegions.get(nr);
+	}
+	
+	public void dispose()
+	{
+		this.m_BackgroundTexture.dispose();
+		this.m_FruitTextures.dispose();
+		this.m_PlayerTextures.dispose();
+		
+		// Remove atlas regions in the hashtable
+		Enumeration<String> enumKey = m_LoadedRegions.keys();
+		while(enumKey.hasMoreElements()) 
+		{
+		    String key = enumKey.nextElement();
+		    m_LoadedRegions.remove((key));
+		}
 	}
 	
 	/**
@@ -165,7 +181,7 @@ public class TextureManager
 	 */
 	private boolean isAtlasRegionLoaded(String key)
 	{
-		if (mLoadedRegions.containsKey(key))
+		if (m_LoadedRegions.containsKey(key))
 		{
 			return true;
 		}
@@ -181,7 +197,7 @@ public class TextureManager
 	private boolean isAtlasRegionLoaded(String key, int index)
 	{
 		String keyWithIndex = key + index;
-		if (mLoadedRegions.containsKey(keyWithIndex))
+		if (m_LoadedRegions.containsKey(keyWithIndex))
 		{
 			return true;
 		}
@@ -202,7 +218,7 @@ public class TextureManager
 		{
 			if (isAtlasRegionLoaded(key))
 			{
-				atlasRegion = mLoadedRegions.get(key);
+				atlasRegion = m_LoadedRegions.get(key);
 			}
 			else
 			{
@@ -217,7 +233,7 @@ public class TextureManager
 			
 			if (isAtlasRegionLoaded(keyWithIndex))
 			{
-				atlasRegion = mLoadedRegions.get(keyWithIndex);
+				atlasRegion = m_LoadedRegions.get(keyWithIndex);
 			}
 			else
 			{
@@ -235,7 +251,7 @@ public class TextureManager
 		
 		if (atlasRegion != null)
 		{
-			mLoadedRegions.put(key, atlasRegion);
+			m_LoadedRegions.put(key, atlasRegion);
 		}
 		
 		return addedToCache;

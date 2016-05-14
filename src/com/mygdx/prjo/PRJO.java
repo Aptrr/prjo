@@ -8,27 +8,18 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
-import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.badlogic.gdx.utils.viewport.FillViewport;
-import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.gamelogic.InputManager;
-import com.graphics.TextureManager;
-import com.highscore.DatabaseConnector;
 
 public class PRJO extends ApplicationAdapter {
 	
 	// Private member variables
 	// ------------------------------------
 	private SpriteBatch m_SpriteBatch;
-	private Texture m_Img;
 	private BitmapFont m_ScoreFont;
 	private BitmapFont m_InstructionFont;
 	private com.gamelogic.Game m_Game;
@@ -154,15 +145,4 @@ public class PRJO extends ApplicationAdapter {
 		
 		m_SpriteBatch.end();
 	}
-	
-	private Sprite createScaledSprite(Texture texture) 
-	{
-		Sprite sprite = new Sprite(texture);
-		sprite.getTexture().setFilter(TextureFilter.Linear,
-				TextureFilter.Linear);
-
-		sprite.setSize(m_Viewport.getWorldWidth(),
-				m_Viewport.getWorldHeight());
-		return sprite;
-    }
 }

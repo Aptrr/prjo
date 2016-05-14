@@ -43,7 +43,13 @@ public class Game
 		{
 			m_Running = false;
 		}
-		checkCollisions();
+		
+		// Update player score
+		if(checkCollisions())
+		{
+			m_Player.setScore(m_Player.getScore() + 1);
+		}
+		
 	}
 	
 	public void render()
@@ -53,9 +59,9 @@ public class Game
 	}
 	
 	
-	private void checkCollisions()
+	private boolean checkCollisions()
 	{
-		m_CollisionHandler.colliding(m_Player, m_FallingObjectsHandler);
+		return m_CollisionHandler.colliding(m_Player, m_FallingObjectsHandler);
 	}
 	
 	private long getElapsedTime()

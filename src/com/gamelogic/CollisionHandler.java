@@ -1,5 +1,7 @@
 package com.gamelogic;
 
+import com.mygdx.prjo.PRJO;
+
 
 // This class handles the very simple collision detected required for this game
 public class CollisionHandler
@@ -16,8 +18,8 @@ public class CollisionHandler
 		for (int i = 0; i < foh.getNrOfFallingObjects(); i++)
 		{
 			// Make sure the object is at or below the player height
-			if (foh.getFallingObject(i).getPos().y <= player.getSprite().getY() + player.getSprite().getHeight()
-					&& foh.getFallingObject(i).getPos().y > 30)
+			if (foh.getFallingObject(i).getPos().y <= player.getSprite().getY() + (player.getSprite().getHeight() * 0.75)
+					&& foh.getFallingObject(i).getPos().y > PRJO.WORLD_HEIGHT * 0.1f)
 			{
 				switch (foh.getFallingObject(i).getPosition()) {
 					case 0:
@@ -42,6 +44,8 @@ public class CollisionHandler
 						foh.removeFallingObject(i);
 						break;
 				}
+				
+				collision = true;
 			}
 		}
 		

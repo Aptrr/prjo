@@ -1,8 +1,6 @@
 package com.gamelogic;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
@@ -15,7 +13,6 @@ public class Player extends Object
 	// Private variables
 	// ----------------------------------
 	private int m_Score;
-	private String m_Name;
 	private BitmapFont m_Font;
 	private boolean m_MoveLeft;
 	private boolean m_MoveRight;
@@ -26,22 +23,21 @@ public class Player extends Object
 	public Player()
 	{
 		m_Score = 0;
-		m_Name = "";
 		//m_Sprite = TextureManager.getInstance().createSprite("idle", 0, TextureManager.PLAYER);
 		AtlasRegion atlasRegion = TextureManager.getInstance().getAtlasRegion("idle", 0, TextureManager.PLAYER);
 		m_Sprite = new Sprite(atlasRegion);
-		// Set player sprite size
-		//float scale = (float) 1.5;
-		//float width = m_Sprite.getWidth() / scale;
-		//float height = m_Sprite.getHeight() / scale;
-		float spriteX = PRJO.WORLD_WIDTH * 0.2f;
-		float spriteY = PRJO.WORLD_HEIGHT * 0.15f;
+		
+		float spriteX = PRJO.WORLD_WIDTH * 0.275f;
+		float spriteY = PRJO.WORLD_HEIGHT * 0.19f;
 		
 		m_Sprite.setSize(spriteX, spriteY);
 		
 		// Set the sprite position
 		m_Pos = new Vector2(PRJO.WORLD_WIDTH/2 - (spriteX/2), PRJO.WORLD_HEIGHT * 0.075f);
+		
+		// Init score font
 		m_Font = new BitmapFont();
+		m_Font.getData().setScale(0.09f, 0.2f);
 	}
 	// ----------------------------------
 
@@ -69,7 +65,7 @@ public class Player extends Object
 	{
 		super.render(camera);
 		m_SpriteBatch.begin();
-		//m_Font.draw(m_SpriteBatch, "Score: " + m_Score, Gdx.graphics.getWidth() - 100, Gdx.graphics.getHeight() - 5);
+		m_Font.draw(m_SpriteBatch, "Score: " + m_Score, PRJO.WORLD_WIDTH * 0.65f, PRJO.WORLD_HEIGHT * 0.95f);
 		m_Sprite.draw(m_SpriteBatch);
 		m_SpriteBatch.end();
 	}
@@ -93,16 +89,6 @@ public class Player extends Object
 	public void setScore(int m_Score) 
 	{
 		this.m_Score = m_Score;
-	}
-
-	public String getName() 
-	{
-		return m_Name;
-	}
-
-	public void setName(String m_Name) 
-	{
-		this.m_Name = m_Name;
 	}
 	// ----------------------------------
 
