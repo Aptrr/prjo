@@ -7,12 +7,15 @@ public class FallingObject extends Object
 	protected double m_Velocity;
 	// Array pos 0 is left, 1 is center and 2 is right
 	private boolean m_Position[];
+	// Boolean indicating whether the falling object contains a powerup or not
+	private boolean m_PowerUp;
 	
 	// Constructors
 	// ----------------------------------
 	public FallingObject()
 	{
 		this.m_Position = new boolean[3];
+		this.m_PowerUp = false;
 	}
 	// ----------------------------------
 	
@@ -58,6 +61,16 @@ public class FallingObject extends Object
 		}
 		
 		return index;
+	}
+	
+	public void setPowerUp(boolean powerUp)
+	{
+		m_PowerUp = powerUp;
+	}
+	
+	public boolean isPowerUp()
+	{
+		return m_PowerUp;
 	}
 	// ----------------------------------
 }

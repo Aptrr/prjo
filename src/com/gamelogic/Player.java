@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.gamelogic.powerup.PowerUpType;
 import com.graphics.TextureManager;
 import com.mygdx.prjo.PRJO;
 
@@ -16,6 +17,9 @@ public class Player extends Object
 	private BitmapFont m_Font;
 	private boolean m_MoveLeft;
 	private boolean m_MoveRight;
+	
+	private boolean m_Alive;
+	private boolean m_Invincible;
 	// ----------------------------------
 	
 	// Constructors
@@ -34,6 +38,10 @@ public class Player extends Object
 		
 		// Set the sprite position
 		m_Pos = new Vector2(PRJO.WORLD_WIDTH/2 - (spriteX/2), PRJO.WORLD_HEIGHT * 0.075f);
+		
+		// Set player to alive
+		m_Alive = true;
+		m_Invincible = false;
 		
 		// Init score font
 		m_Font = new BitmapFont();
@@ -97,26 +105,76 @@ public class Player extends Object
 		return m_MoveLeft;
 	}
 
-	public void setMoveLeft(boolean m_MoveLeft)
+	public void setMoveLeft(boolean moveLeft)
 	{
-		if (this.m_MoveRight)
+		if (this.m_MoveRight && moveLeft)
 		{
 			this.m_MoveRight = false;
 		}
-		this.m_MoveLeft = m_MoveLeft;
+		this.m_MoveLeft = moveLeft;
 	}
 
 	public boolean getMoveRight()
 	{
-		if (this.m_MoveLeft)
-		{
-			this.m_MoveLeft = false;
-		}
 		return m_MoveRight;
 	}
 
-	public void setMoveRight(boolean m_MoveRight)
+	public void setMoveRight(boolean moveRight)
 	{
-		this.m_MoveRight = m_MoveRight;
+		if (this.m_MoveLeft && moveRight)
+		{
+			this.m_MoveLeft = false;
+		}
+		this.m_MoveRight = moveRight;
+	}
+	
+	
+	/**
+	 * Kill the player
+	 */
+	public void kill()
+	{
+		if (!m_Invincible)
+		{
+			m_Alive = false;
+		}
+	}
+	
+	/**
+	 * Get whether the player is alive or dead
+	 */
+	public boolean isAlive()
+	{
+		return m_Alive;
+	}
+	
+	/**
+	 * Apply the specified power up type to the player
+	 * @param The power up type
+	 */
+	public void applyPowerUp(PowerUpType powerUpType)
+	{
+		switch (powerUpType) {
+			case INVINCIBLE:
+				m_Invincible = true;
+				break;
+			default:
+				break;
+		}
+	}
+	
+	/**
+	 * Remove the specified power up type to the player
+	 * @param The power up type
+	 */
+	public void removePowerUp(PowerUpType powerUpType)
+	{
+		switch (powerUpType) {
+			case INVINCIBLE:
+				m_Invincible = false;
+				break;
+			default:
+				break;
+		}
 	}
 }

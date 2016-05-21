@@ -6,14 +6,14 @@ import com.mygdx.prjo.PRJO;
 // This class handles the very simple collision detected required for this game
 public class CollisionHandler
 {
+	
 	public CollisionHandler()
 	{
-		// TODO Auto-generated constructor stub
 	}
 	
-	public boolean colliding(Player player, FallingObjectsHandler foh)
+	public CollisionResult colliding(Player player, FallingObjectsHandler foh)
 	{
-		boolean collision = false;
+		CollisionResult collision = null;
 		
 		for (int i = 0; i < foh.getNrOfFallingObjects(); i++)
 		{
@@ -21,22 +21,28 @@ public class CollisionHandler
 			if (foh.getFallingObject(i).getPos().y <= player.getSprite().getY() + (player.getSprite().getHeight() * 0.75)
 					&& foh.getFallingObject(i).getPos().y > PRJO.WORLD_HEIGHT * 0.1f)
 			{
+				// Decide whether it was a meat or a fruit that collided with the player
+				FallingObjectType type = foh.getType(foh.getFallingObject(i));
+				
 				switch (foh.getFallingObject(i).getPosition()) {
 					case 0:
 						if (player.getMoveLeft())
 						{
+							collision = new CollisionResult(type, foh.getFallingObject(i).isPowerUp());
 							foh.removeFallingObject(i);
 						}
 						break;
 					case 1:
 						if (!player.getMoveLeft() && !player.getMoveRight())
 						{
+							collision = new CollisionResult(type, foh.getFallingObject(i).isPowerUp());
 							foh.removeFallingObject(i);
 						}
 						break;
 					case 2:
 						if (player.getMoveRight())
 						{
+							collision = new CollisionResult(type, foh.getFallingObject(i).isPowerUp());
 							foh.removeFallingObject(i);
 						}
 						break;
@@ -44,8 +50,6 @@ public class CollisionHandler
 						foh.removeFallingObject(i);
 						break;
 				}
-				
-				collision = true;
 			}
 		}
 		

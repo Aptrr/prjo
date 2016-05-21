@@ -1,17 +1,24 @@
 package com.gamelogic;
 
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.math.Interpolation.Pow;
+import com.gamelogic.powerup.PowerUpHandler;
+import com.gamelogic.powerup.PowerUpType;
+import com.mygdx.prjo.PRJO;
 
 public class Game
 {
 	// Private variables
 	// ----------------------------------
 	private Player m_Player;
-	private FallingObjectsHandler m_FallingObjectsHandler;
-	private CollisionHandler m_CollisionHandler;
 	private long m_StartTime;
 	private boolean m_Running;
 	private Camera m_Camera;
+	
+	// Handlers
+	private FallingObjectsHandler m_FallingObjectsHandler;
+	private CollisionHandler m_CollisionHandler;
+	private PowerUpHandler m_PowerUpHandler;	
 	// ----------------------------------
 	
 	// Constructors
@@ -19,8 +26,10 @@ public class Game
 	public Game(Camera camera)
 	{
 		m_Player = new Player();
-		m_FallingObjectsHandler = new FallingObjectsHandler();
+		m_FallingObjectsHandler = new FallingObjectsHandler(m_Player);
 		m_CollisionHandler = new CollisionHandler();
+		m_PowerUpHandler = new PowerUpHandler();
+		
 		m_StartTime = 0;
 		m_Running = false;
 		m_Camera = camera;
@@ -39,17 +48,27 @@ public class Game
 	{
 		m_Player.update(dt);
 		m_FallingObjectsHandler.update(dt);
-		if (m_FallingObjectsHandler.isDead())
+		
+		// Handle power ups
+		PowerUpType powerUpType = m_PowerUpHandler.update(dt);
+		if (powerUpType != PowerUpType.NONE)
 		{
+			removePowerUps(powerUpType);
+		}
+		
+		// Check for collisions
+		CollisionResult collisionType = checkCollisions();
+		if (collisionType != null)
+		{
+			handleCollision(collisionType);
+		}
+		
+		
+		if (!m_Player.isAlive())
+		{
+			PRJO.m_GoogleServices.submitScore(m_Player.getScore());
 			m_Running = false;
 		}
-		
-		// Update player score
-		if(checkCollisions())
-		{
-			m_Player.setScore(m_Player.getScore() + 1);
-		}
-		
 	}
 	
 	public void render()
@@ -59,9 +78,48 @@ public class Game
 	}
 	
 	
-	private boolean checkCollisions()
+	private CollisionResult checkCollisions()
 	{
 		return m_CollisionHandler.colliding(m_Player, m_FallingObjectsHandler);
+	}
+	
+	private void handleCollision(CollisionResult collisionResult)
+	{
+		switch (collisionResult.fallingObjectType) {
+			case FRUIT:
+				// Update player score
+				m_Player.setScore(m_Player.getScore() + 1);
+				
+				// Add power up if the fruit has a power up
+				if (collisionResult.powerUp)
+				{
+					// Add the power up to the power up handler
+					m_PowerUpHandler.addPowerUp(PowerUpType.INVINCIBLE);
+					// Apply the power up effect to the player
+					m_Player.applyPowerUp(PowerUpType.INVINCIBLE);
+				}
+				break;
+				
+			case MEAT:
+				m_Player.kill();
+				break;
+
+			default:
+				// Do nothing
+				break;
+		}
+	}
+	
+	private void removePowerUps(PowerUpType powerUpType)
+	{
+		switch (powerUpType) {
+			case INVINCIBLE:
+				m_Player.removePowerUp(powerUpType);
+				break;
+
+			default:
+				break;
+		}
 	}
 	
 	private long getElapsedTime()

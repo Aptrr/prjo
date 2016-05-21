@@ -23,6 +23,11 @@ public class TextureManager
 	private TextureAtlas m_FruitTextures;
 	private Array<AtlasRegion> m_FruitAtlasRegions;
 	
+	// Meat variables
+	private TextureAtlas m_MeatTextures;
+	private Array<AtlasRegion> m_MeatAtlasRegions;
+	
+	
 	// Player variables
 	private TextureAtlas m_PlayerTextures;
 	
@@ -56,12 +61,17 @@ public class TextureManager
 	{
 		boolean initialized = true;
 		
-		// Load fruit texture
+		// Load fruit textures
 		m_FruitTextures = new TextureAtlas(Gdx.files.internal("vegies_output/vegies.atlas"));
 		m_FruitAtlasRegions = m_FruitTextures.getRegions();
 		
+		// Load meat textures
+		m_MeatTextures = new TextureAtlas(Gdx.files.internal("meat_output/meat.atlas"));
+		m_MeatAtlasRegions = m_MeatTextures.getRegions();
+		
 		// Load player texture
 		m_PlayerTextures = new TextureAtlas(Gdx.files.internal("character_output/viking.atlas"));
+		
 		
 		m_LoadedRegions = new Hashtable<String, TextureAtlas.AtlasRegion>();
 		
@@ -150,6 +160,11 @@ public class TextureManager
 		return sprite;
 	}
 	
+	
+	/**
+	 * Get random fruit from the loaded fruit textures
+	 * @return AtlasRegion
+	 */
 	public AtlasRegion getRandomFruit()
 	{		
 		// Get a random number within the altas region
@@ -157,6 +172,19 @@ public class TextureManager
 		int nr = 0 + ran.nextInt((m_FruitAtlasRegions.size - 1) - 0 + 1);
 		
 		return m_FruitAtlasRegions.get(nr);
+	}
+	
+	/**
+	 * Get random meat from the loaded fruit textures
+	 * @return AtlasRegion
+	 */
+	public AtlasRegion getRandomMeat()
+	{		
+		// Get a random number within the altas region
+		Random ran = new Random();
+		int nr = 0 + ran.nextInt((m_MeatAtlasRegions.size - 1) - 0 + 1);
+		
+		return m_MeatAtlasRegions.get(nr);
 	}
 	
 	public void dispose()

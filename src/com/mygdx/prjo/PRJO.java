@@ -14,9 +14,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.gamelogic.InputManager;
+import com.googleservices.IGoogleServices;
 
-public class PRJO extends ApplicationAdapter {
-	
+public class PRJO extends ApplicationAdapter 
+{
 	// Private member variables
 	// ------------------------------------
 	private SpriteBatch m_SpriteBatch;
@@ -34,13 +35,21 @@ public class PRJO extends ApplicationAdapter {
 	// ------------------------------------
 	public static final float WORLD_WIDTH = 50;
     public static final float WORLD_HEIGHT = 100;
+    public static IGoogleServices m_GoogleServices;
 	// ------------------------------------
 	
+    public PRJO(IGoogleServices googleServices)
+	{
+		super();
+		m_GoogleServices = googleServices;
+	}
+    
 	@Override
 	public void create() 
 	{
 		try
 		{
+			PRJO.m_GoogleServices.signIn();
 			m_SpriteBatch = new SpriteBatch();
 			m_ScoreFont = new BitmapFont();
 			m_InstructionFont = new BitmapFont();
