@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.prjo.PRJO;
 
 public class Object
 {

@@ -11,16 +11,18 @@ public class Fruit extends FallingObject
 {
 	private static final float FALLSPEED = 85.0f;
 	
-	public Fruit()
+	public Fruit(float speedModifier)
 	{
-		super();
+		super(speedModifier);
 		m_Velocity = FALLSPEED;
 		m_Pos = new Vector2(50.0f, 250.0f);
 		m_Dir = new Vector2(0.0f, -1.0f);
 	}
 	
-	public Fruit(float x, float y)
+	public Fruit(float x, float y, float speedModifier)
 	{
+		super(speedModifier);
+		
 		m_Velocity = FALLSPEED;
 		m_Dir = new Vector2(0.0f, -1.0f);
 		AtlasRegion atlasRegion = TextureManager.getInstance().getRandomFruit();
@@ -33,7 +35,7 @@ public class Fruit extends FallingObject
 	{
 		super.update(dt);
 		
-		m_Pos.y -= m_Velocity * dt; 
+		m_Pos.y -= m_Velocity * m_SpeedModifier * dt; 
 	}
 	
 	public void render(Camera camera)

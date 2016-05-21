@@ -18,7 +18,7 @@ public class PowerUpHandler
 	 */
 	public PowerUpType update(float dt)
 	{
-		PowerUpType powerUpType = PowerUpType.NONE;
+		PowerUpType powerUpType = null;
 		
 		for (int i = 0; i < m_PowerUps.size(); i++)
 		{
@@ -46,7 +46,7 @@ public class PowerUpHandler
 					break;
 				case SLOW_MOTION:
 					m_PowerUps.add(new SlowMotionPowerUp(powerUpType));
-
+					break;
 				default:
 					// Do nothing
 					break;

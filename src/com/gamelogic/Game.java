@@ -1,7 +1,6 @@
 package com.gamelogic;
 
 import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.math.Interpolation.Pow;
 import com.gamelogic.powerup.PowerUpHandler;
 import com.gamelogic.powerup.PowerUpType;
 import com.mygdx.prjo.PRJO;
@@ -51,7 +50,7 @@ public class Game
 		
 		// Handle power ups
 		PowerUpType powerUpType = m_PowerUpHandler.update(dt);
-		if (powerUpType != PowerUpType.NONE)
+		if (powerUpType != null)
 		{
 			removePowerUps(powerUpType);
 		}
@@ -93,10 +92,20 @@ public class Game
 				// Add power up if the fruit has a power up
 				if (collisionResult.powerUp)
 				{
+					PowerUpType powerUpType = PowerUpType.getRandomPowerUpType();
 					// Add the power up to the power up handler
-					m_PowerUpHandler.addPowerUp(PowerUpType.INVINCIBLE);
-					// Apply the power up effect to the player
-					m_Player.applyPowerUp(PowerUpType.INVINCIBLE);
+					m_PowerUpHandler.addPowerUp(powerUpType);
+					
+					switch (powerUpType) {
+						case INVINCIBLE:
+							// Apply the power up effect to the player
+							m_Player.applyPowerUp(powerUpType);
+							break;
+						case SLOW_MOTION:
+							m_FallingObjectsHandler.applyPowerUp(powerUpType);
+						default:
+							break;
+					}
 				}
 				break;
 				
@@ -116,7 +125,9 @@ public class Game
 			case INVINCIBLE:
 				m_Player.removePowerUp(powerUpType);
 				break;
-
+			case SLOW_MOTION:
+				m_FallingObjectsHandler.removePowerUp(powerUpType);
+				break;
 			default:
 				break;
 		}

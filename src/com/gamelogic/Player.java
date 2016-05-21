@@ -155,8 +155,11 @@ public class Player extends Object
 	public void applyPowerUp(PowerUpType powerUpType)
 	{
 		switch (powerUpType) {
-			case INVINCIBLE:
+			case INVINCIBLE:				
 				m_Invincible = true;
+				break;
+			case SLOW_MOTION:
+				System.out.println("Slow motion");
 				break;
 			default:
 				break;

@@ -1,8 +1,9 @@
 package com.gamelogic.powerup;
 
+import com.utilities.Utils;
+
 public enum PowerUpType
 {
-	NONE,
 	/**
 	 * Make the player invincible
 	 */
@@ -10,5 +11,12 @@ public enum PowerUpType
 	/**
 	 * Slow down the speed of falling objects
 	 */
-	SLOW_MOTION
+	SLOW_MOTION;
+	
+	public static PowerUpType getRandomPowerUpType()
+	{
+		PowerUpType[] powerUpTypes = PowerUpType.values();
+		
+		return powerUpTypes[Utils.getRandomNumber(0, powerUpTypes.length)];
+	}
 }

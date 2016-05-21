@@ -5,6 +5,7 @@ public class FallingObject extends Object
 	// Private variables
 	// ----------------------------------
 	protected double m_Velocity;
+	protected float m_SpeedModifier;
 	// Array pos 0 is left, 1 is center and 2 is right
 	private boolean m_Position[];
 	// Boolean indicating whether the falling object contains a powerup or not
@@ -12,10 +13,11 @@ public class FallingObject extends Object
 	
 	// Constructors
 	// ----------------------------------
-	public FallingObject()
+	public FallingObject(float speedModifier)
 	{
-		this.m_Position = new boolean[3];
-		this.m_PowerUp = false;
+		m_Position = new boolean[3];
+		m_PowerUp = false;
+		m_SpeedModifier = speedModifier;
 	}
 	// ----------------------------------
 	
@@ -71,6 +73,11 @@ public class FallingObject extends Object
 	public boolean isPowerUp()
 	{
 		return m_PowerUp;
+	}
+	
+	public void setSpeedModifer(float speedModifier)
+	{
+		m_SpeedModifier = speedModifier;
 	}
 	// ----------------------------------
 }

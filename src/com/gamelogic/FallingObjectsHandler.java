@@ -1,9 +1,11 @@
 package com.gamelogic;
 
 import java.util.ArrayList;
-import java.util.Random;
+
 import com.badlogic.gdx.graphics.Camera;
+import com.gamelogic.powerup.PowerUpType;
 import com.mygdx.prjo.PRJO;
+import com.utilities.Utils;
 
 public class FallingObjectsHandler
 {
@@ -17,6 +19,7 @@ public class FallingObjectsHandler
 	private ArrayList<FallingObject> m_FallingObjects;
 	private float m_SpawnInterval = 1.0f;
 	private float m_TimeSinceLastSpawn = 0.0f;
+	private float m_SpeedModifier = 1.0f;
 	private boolean m_Dead = false;
 	private Player m_Player;
 	
@@ -91,7 +94,7 @@ public class FallingObjectsHandler
 		m_TimeSinceLastSpawn += dt;
 		if (m_TimeSinceLastSpawn >= m_SpawnInterval)
 		{
-			int spawnPosition = getRandomNumber(0, SPAWNPOSITIONS.length);
+			int spawnPosition = Utils.getRandomNumber(0, SPAWNPOSITIONS.length);
 			
 			// Determine if it's going to be meat or fruit
 			FallingObjectType type = getFallingObjectType();
@@ -101,15 +104,15 @@ public class FallingObjectsHandler
 			switch (type) {
 				case MEAT:
 					// Create meat
-					fallingObject = new Meat(SPAWNPOSITIONS[spawnPosition], PRJO.WORLD_HEIGHT);
+					fallingObject = new Meat(SPAWNPOSITIONS[spawnPosition], PRJO.WORLD_HEIGHT, m_SpeedModifier);
 					break;
 				case FRUIT:
 				default:
 					// Create fruit
-					fallingObject = new Fruit(SPAWNPOSITIONS[spawnPosition], PRJO.WORLD_HEIGHT);
+					fallingObject = new Fruit(SPAWNPOSITIONS[spawnPosition], PRJO.WORLD_HEIGHT, m_SpeedModifier);
 					
 					// Determine if the fruit should contain power up
-					if (getRandomNumber(0, 100) <= 100)
+					if (Utils.getRandomNumber(0, 100) <= 100)
 					{
 						fallingObject.setPowerUp(true);
 					}
@@ -134,7 +137,7 @@ public class FallingObjectsHandler
 	{
 		FallingObjectType type = FallingObjectType.FRUIT;
 		
-		int randomNr = getRandomNumber(0, 100);
+		int randomNr = Utils.getRandomNumber(0, 100);
 		
 		if (randomNr <= 25)
 		{
@@ -142,14 +145,7 @@ public class FallingObjectsHandler
 		}
 		
 		return type;
-	}
-	
-	private int getRandomNumber(int lower, int upper)
-	{
-		Random rand = new Random();
-
-		return rand.nextInt(upper) + lower;
-	}
+	}	
 	
 	public boolean isDead()
 	{
@@ -174,5 +170,42 @@ public class FallingObjectsHandler
 		}
 		
 		return type;
+	}
+	
+	/**
+	 * Apply the specified power up type to the player
+	 * @param The power up type
+	 */
+	public void applyPowerUp(PowerUpType powerUpType)
+	{
+		switch (powerUpType) {
+			case SLOW_MOTION:
+				setSpeedModifier(0.5f);
+				break;
+			default:
+				break;
+		}
+	}
+	
+	public void removePowerUp(PowerUpType powerUpType)
+	{
+		switch (powerUpType) {
+			case SLOW_MOTION:
+				setSpeedModifier(1.0f);
+				break;
+			default:
+				break;
+		}
+	}
+	
+	public void setSpeedModifier(float speedModifier)
+	{
+		m_SpeedModifier = speedModifier;
+		
+		// Update existing falling objects
+		for (int i = 0; i < m_FallingObjects.size(); i++)
+		{
+			m_FallingObjects.get(i).setSpeedModifer(m_SpeedModifier);
+		}
 	}
 }

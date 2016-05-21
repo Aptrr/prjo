@@ -6,7 +6,8 @@ public class SlowMotionPowerUp extends PowerUp
 	public SlowMotionPowerUp(PowerUpType powerUpType)
 	{
 		super(powerUpType);
-		// TODO Auto-generated constructor stub
+		
+		m_Duration = 5.0f;
 	}
 	
 }
