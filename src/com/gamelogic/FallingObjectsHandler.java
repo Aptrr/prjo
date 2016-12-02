@@ -109,13 +109,16 @@ public class FallingObjectsHandler
 				case FRUIT:
 				default:
 					// Create fruit
-					fallingObject = new Fruit(SPAWNPOSITIONS[spawnPosition], PRJO.WORLD_HEIGHT, m_SpeedModifier);
+					boolean powerUp = false;
 					
 					// Determine if the fruit should contain power up
-					if (Utils.getRandomNumber(0, 100) <= 100)
+					if (Utils.getRandomNumber(0, 100) <= 10)
 					{
-						fallingObject.setPowerUp(true);
+						powerUp = true;
 					}
+					
+					fallingObject = new Fruit(SPAWNPOSITIONS[spawnPosition], PRJO.WORLD_HEIGHT, m_SpeedModifier, powerUp);
+					
 					break;
 			}			
 			

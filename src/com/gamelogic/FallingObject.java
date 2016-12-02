@@ -9,7 +9,7 @@ public class FallingObject extends Object
 	// Array pos 0 is left, 1 is center and 2 is right
 	private boolean m_Position[];
 	// Boolean indicating whether the falling object contains a powerup or not
-	private boolean m_PowerUp;
+	protected boolean m_PowerUp;
 	
 	// Constructors
 	// ----------------------------------

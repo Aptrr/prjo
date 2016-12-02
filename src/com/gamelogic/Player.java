@@ -14,6 +14,7 @@ public class Player extends Object
 	// Private variables
 	// ----------------------------------
 	private int m_Score;
+	private float m_ScoreMultiplier;
 	private BitmapFont m_Font;
 	private boolean m_MoveLeft;
 	private boolean m_MoveRight;
@@ -27,6 +28,7 @@ public class Player extends Object
 	public Player()
 	{
 		m_Score = 0;
+		m_ScoreMultiplier = 1.0f;
 		//m_Sprite = TextureManager.getInstance().createSprite("idle", 0, TextureManager.PLAYER);
 		AtlasRegion atlasRegion = TextureManager.getInstance().getAtlasRegion("idle", 0, TextureManager.PLAYER);
 		m_Sprite = new Sprite(atlasRegion);
@@ -94,9 +96,9 @@ public class Player extends Object
 		return m_Score;
 	}
 
-	public void setScore(int m_Score) 
+	public void addScore() 
 	{
-		this.m_Score = m_Score;
+		this.m_Score += 1 * m_ScoreMultiplier;
 	}
 	// ----------------------------------
 
@@ -158,10 +160,11 @@ public class Player extends Object
 			case INVINCIBLE:				
 				m_Invincible = true;
 				break;
-			case SLOW_MOTION:
-				System.out.println("Slow motion");
+			case SCORE_MULTIPLIER:
+				m_ScoreMultiplier = 3.0f;
 				break;
 			default:
+				// Do nothing
 				break;
 		}
 	}
@@ -175,6 +178,9 @@ public class Player extends Object
 		switch (powerUpType) {
 			case INVINCIBLE:
 				m_Invincible = false;
+				break;
+			case SCORE_MULTIPLIER:
+				m_ScoreMultiplier = 1.0f;
 				break;
 			default:
 				break;

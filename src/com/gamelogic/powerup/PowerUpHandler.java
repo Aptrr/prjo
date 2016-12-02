@@ -47,6 +47,8 @@ public class PowerUpHandler
 				case SLOW_MOTION:
 					m_PowerUps.add(new SlowMotionPowerUp(powerUpType));
 					break;
+				case SCORE_MULTIPLIER:
+					m_PowerUps.add(new ScorePowerUp(powerUpType));
 				default:
 					// Do nothing
 					break;

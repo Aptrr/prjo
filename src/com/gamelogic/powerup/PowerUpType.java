@@ -11,7 +11,11 @@ public enum PowerUpType
 	/**
 	 * Slow down the speed of falling objects
 	 */
-	SLOW_MOTION;
+	SLOW_MOTION,
+	/**
+	 * Multiply the score
+	 */
+	SCORE_MULTIPLIER;
 	
 	public static PowerUpType getRandomPowerUpType()
 	{

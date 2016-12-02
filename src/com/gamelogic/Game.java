@@ -87,22 +87,26 @@ public class Game
 		switch (collisionResult.fallingObjectType) {
 			case FRUIT:
 				// Update player score
-				m_Player.setScore(m_Player.getScore() + 1);
+				m_Player.addScore();
 				
 				// Add power up if the fruit has a power up
 				if (collisionResult.powerUp)
 				{
 					PowerUpType powerUpType = PowerUpType.getRandomPowerUpType();
 					// Add the power up to the power up handler
+					System.out.println(powerUpType.toString());
 					m_PowerUpHandler.addPowerUp(powerUpType);
 					
 					switch (powerUpType) {
+						case SCORE_MULTIPLIER:
 						case INVINCIBLE:
 							// Apply the power up effect to the player
 							m_Player.applyPowerUp(powerUpType);
 							break;
 						case SLOW_MOTION:
+							// Apply power up to the falling objects handler
 							m_FallingObjectsHandler.applyPowerUp(powerUpType);
+							break;
 						default:
 							break;
 					}
@@ -122,6 +126,7 @@ public class Game
 	private void removePowerUps(PowerUpType powerUpType)
 	{
 		switch (powerUpType) {
+			case SCORE_MULTIPLIER:
 			case INVINCIBLE:
 				m_Player.removePowerUp(powerUpType);
 				break;
